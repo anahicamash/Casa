@@ -1,0 +1,129 @@
+<template>
+<div class="page">
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(248,122,137,100);"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+        </a>
+      </div>
+      <div class="title" style="color:white;" >Citas</div>
+      <div class="right">
+        <a href="/agregarCitasAdmin/" class="link"><i class="icon f7-icons" style="color:white;">plus</i></a>
+      </div>
+
+    </div>
+
+    </div>
+    <div class="page-content">
+
+     <div class="data-table card">
+      <table>
+        <thead>
+          <tr>
+
+            <th class="numeric-cell">Ángel</th>
+            <th class="numeric-cell">Refugio</th>
+              <th class="numeric-cell">Padre</th>
+            <th class="numeric-cell">Fecha</th>
+
+            <th></th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody id="tabla">
+          {{#each citas}}
+
+          <tr id="{{id}}">
+
+            <td class="numeric-cell">{{angel}}</td>
+            <td class="numeric-cell">{{refugio}}</td>
+            <td class="numeric-cell">{{padre}} </td>
+            <td class="numeric-cell">{{fecha}}</td>
+
+            <td class="numeric-cell"><a href="/editarAngelesAdmin/{{id}}/{{angel}}/{{refugio}}/{{padre}}/{{fecha}}" ><i class="icon f7-icons color-theme-pink">pencil</i></a></td>
+            <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-pink">trash_circle</i></a></td>
+          </tr>
+
+
+          {{/each}}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+       citas:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando cita');
+                                db1.collection("citas").doc(id).delete().then(function() {
+                                  console.log("Cita eliminada");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _Citas = [];
+      var tabla = document.getElementById('tabla');
+      db1
+      .collection("citas")
+      .onSnapshot(function (querySnapshot) {
+        tabla.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            
+                            _Citas.push({
+                              id:doc.id,
+                              angel:doc.data().angel,
+                              refugio:doc.data().refugio,
+                              padre:doc.data().padre,
+                              fecha:doc.data().fecha
+
+                            })
+                            self.$setState({
+                              citas:_Citas
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>

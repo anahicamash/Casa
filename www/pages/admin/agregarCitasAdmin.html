@@ -1,0 +1,206 @@
+<template>
+<div class="page">
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(248,122,137,100);"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+        </a>
+      </div>
+      <div class="title" style="color:white;" >Citas</div>
+      
+    </div>
+
+    </div>
+    <div class="page-content">
+
+      <div class="block block-title-medium">Cita</div>
+      <form class="list no-hairlines-md" id="agregarCita">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+            </div>                
+            <div class="item-inner">
+               <div class="item-title item-label">Nombre Ángel</div>
+               <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="angel">
+                    {{#each angel}}
+                    <option value={{nombreA}}>{{nombreA}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+            </div>
+          </li>  
+
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+            </div>                
+            <div class="item-inner">
+               <div class="item-title item-label">Refugio</div>
+               <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="refugio">
+                    {{#each refugio}}
+                    
+                    <option value={{id}}>{{nombreR}}</option>
+                    
+                    {{/each}}
+                  </select>
+                </div>
+            </div>
+          </li>  
+          
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+            </div>                
+            <div class="item-inner">
+               <div class="item-title item-label">Padre</div>
+               <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="padre">
+                    {{#each padre}}
+                    
+                    <option value={{nombre}} >{{nombre}} </option>
+                    {{/each}}
+                  </select>
+                </div>
+            </div>
+          </li>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i>
+            </div>
+           <div class="item-inner">
+              <div class="item-title item-label">Fecha</div>
+              <div class="item-input-wrap">
+                <input type="date" placeholder="Seleccionar fecha"  name="fecha"/>
+
+              </div>
+           </div>
+          </li>
+      </ul>
+    </form>    
+    <a href="#" class="button" @click="guardar">Agregar Cita</a> 
+
+    </div>
+  </div>
+</template>
+
+<script>
+  return {
+    methods:{
+      guardar:function(){
+        var datos = app.form.convertToData('#agregarCita');
+        var formData = {
+         angel:'',
+         refugio: '',
+         fecha: '',
+         padre: ''
+       }
+       db1.collection("citas").add({
+        angel:datos.angel,
+        
+        refugio: datos.refugio,
+        
+        fecha:datos.fecha,
+        padre:datos.padre
+        
+        
+      
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+   },
+   on: {
+          pageInit: function () {
+
+            var calendarDateFormat = app.calendar.create({
+                    inputEl: '#demo-calendar-date-format',
+                    dateFormat: { weekday: 'long', month: 'long', day: '2-digit', year: 'numeric' },
+                  });
+            var self = this;
+                let _angel = [];
+                let _padre=[];
+                let _refugio=[];
+                
+             
+    
+              db1.collection("refugios").doc("EAty2K6dmi4k86ukcljv").collection("angeles")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                           //console.log(doc.id, " => ", doc.data());
+                            _angel.push({
+                              id:doc.id,
+                              nombreA:doc.data().nombre
+                              
+
+                             })
+
+                            self.$setState({
+                              angel:_angel
+                           })
+                        });
+                    });
+
+
+                    db1.collection("users").where("tipo","==","refugio")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => REFUGIO", doc.data());
+                            _refugio.push({
+                              id:doc.id,
+                              nombreR:doc.data().nombreR,
+                              
+
+                             })
+
+                            self.$setState({
+                              refugio:_refugio
+                           })
+                        });
+                    });
+
+                     db1.collection("users").where("tipo","==","padre")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => PADRE", doc.data());
+                            _padre.push({
+                              id:doc.id,
+                              nombre:doc.data().nombre+" "+doc.data().paterno+" "+doc.data().materno
+                              
+
+                             })
+
+                            self.$setState({
+                              padre:_padre
+                           })
+                        });
+                    });
+
+
+                  
+    
+    
+    
+          },
+        },
+ };
+</script>

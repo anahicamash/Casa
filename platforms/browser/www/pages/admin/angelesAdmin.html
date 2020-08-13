@@ -1,0 +1,137 @@
+<template>
+  <div class="page">
+    <div class="navbar" >
+      <div class="navbar-bg" style="background-color:rgb(237,30,121,100);"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/leccionesU/" class="link back">
+            <i class="icon icon-back" style="color:white;"></i>
+          </a>
+        </div>
+        <div class="title" style="color:white;" >Ángeles</div>
+        <div class="right">
+          <a href="/agregarAngelesAdmin/" class="link"><i class="icon f7-icons" style="color:white;">plus</i></a>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="page-content">
+      <div class="data-table card">
+        <table>
+          <thead>
+            <tr>
+
+              <th class="label-cell">ID</th>
+              <th class="label-cell">Nombre</th>
+              <th class="label-cell">Tipo</th>
+              <th class="label-cell">Adoptado</th>
+
+              <th></th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody id="tabla">
+            {{#each angeles}}
+
+            <tr id="{{id}}">
+
+              <td class="label-cell">{{id}}</td>
+              <td class="label-cell">{{nombre}}</td>
+              <td class="label-cell">{{tipo}}</td>
+              <td class="label-cell">{{adoptado}}</td>
+
+              <td class="numeric-cell"><a href="/editarAngelesAdmin/{{id}}/{{nombre}}/{{tipo}}/{{sexo}}/{{raza}}/{{peso}}/{{altura_cm}}/{{fecha_rescate}}/{{edad}}/{{des_condicion}}/{{des_condicion_actual}}/{{adoptado}}" ><i class="icon f7-icons color-theme-pink">pencil</i></a></td>
+              <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-pink">trash_circle</i></a></td>
+            </tr>
+
+
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+      
+    </div>
+  </div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+       angeles:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando Ángel');
+                                db1.collection("angeles").doc(id).delete().then(function() {
+                                  console.log("Ángel eliminado");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _Angeles= [];
+      var tabla = document.getElementById('tabla');
+      
+      db1.collection("refugios").doc("EAty2K6dmi4k86ukcljv").collection("angeles")
+      .onSnapshot(function (querySnapshot) {
+        tabla.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            
+                            _Angeles.push({
+                              id:doc.id,
+                              nombre:doc.data().nombre,
+                              tipo:doc.data().tipo,
+                              sexo:doc.data().sexo,
+                              raza:doc.data().raza,
+                              peso:doc.data().peso,
+                              altura_cm:doc.data().altura_cm,
+                              fecha_rescate:doc.data().fecha_rescate,
+                              edad:doc.data().edad,
+                              des_condicion:doc.data().des_condicion,
+                              des_condicion_actual:doc.data().des_condicion_actual,
+                              adoptado:doc.data().adoptado
+
+                            })
+                            self.$setState({
+                              angeles:_Angeles
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>

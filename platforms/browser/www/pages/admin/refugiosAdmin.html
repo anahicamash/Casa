@@ -1,0 +1,128 @@
+<template>
+<div class="page">
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(56,182,255,1);"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+        </a>
+      </div>
+      <div class="title" style="color:white;" >Refugios</div>
+      <div class="right">
+          <a href="/agregarRefugiosAdmin/" class="link"><i class="icon f7-icons" style="color:white;">plus</i></a>
+        </div>
+
+    </div>
+
+    </div>
+    <div class="page-content">
+      <div class="data-table card">
+        <table>
+          <thead>
+            <tr>
+
+              <th class="label-cell">ID</th>
+              <th class="label-cell">Nombre</th>
+              
+
+              <th></th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody id="tabla">
+            {{#each refugios}}
+
+            <tr id="{{id}}">
+
+              <td class="label-cell">{{id}}</td>
+              <td class="label-cell">{{nombreR}}</td>
+              <td class="numeric-cell"><a href="/editarRefugiosAdmin/{{id}}/{{nombreR}}/{{direccion}}/{{cp}}/{{telefono}}/{{responsable}}/{{anio_resgistro}}/" >
+                <i class="icon f7-icons color-theme-pink">pencil</i></a></td>
+              <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-pink">trash_circle</i></a></td>
+            </tr>
+
+
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+      
+      
+    </div>
+  </div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+       refugios:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando Refugio');
+                                db1.collection("refugio").doc(id).delete().then(function() {
+                                  console.log("Refugio eliminado");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _Refugios= [];
+      var tabla = document.getElementById('tabla');
+      db1
+      .collection("users").where("tipo","==","refugio")
+      .onSnapshot(function (querySnapshot) {
+        tabla.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            
+                            _Refugios.push({
+                              id:doc.id,
+                              nombreR:doc.data().nombreR,
+                              direccion:doc.data().direccion,
+                              cp:doc.data().cp,
+                              telefono:doc.data().telefono,
+                              responsable:doc.data().responsable,
+                              anio_resgistro:doc.data().anio_resgistro
+                              
+
+                            })
+                            self.$setState({
+                              refugios:_Refugios
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>

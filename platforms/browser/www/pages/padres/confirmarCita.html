@@ -1,0 +1,99 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          
+
+        </div>
+        <div class="title" >Cita</div>
+
+      </div>
+    </div>
+    <div class="page-content">
+     
+ 
+      <div class="card card-outline" >
+        <div class="card-header"><h1>Confirmación para agendar cita</h1></div>
+        <div class="card-content card-content-padding">
+          <p>ID Ángel: {{$route.params.idAngel}}</p>
+          <p>Nombre Ángel: {{$route.params.nombre}}</p>
+          <p>Nombre del Refugio: Caninos 911 </p>
+         
+          <a href="#" class="button" @click="confirmar" >Confirmar</a>
+          
+          <a href="#" class="link back col button color-red">
+             Cancelar
+           </a>
+         
+          
+        </div>
+        <div class="card-footer"><p name="padre">{{$route.params.nombreUser}}</p></div>
+      </div>
+    
+    </div>
+  </div>
+  ...
+
+
+
+
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+
+      }
+    },
+    methods:{
+      confirmar:function(){
+        
+        var f7 = this;
+        var app = f7.$app;
+       var id=f7.$route.params.idAngel;
+       var  nombre=f7.$route.params.nombre;
+       var nombreUser=f7.$route.params.nombreUser;
+         
+       db1.collection("citas").add({
+        angel:nombre,
+        angelID:id,
+        refugio: "Caninos 911",
+        fecha:"",
+        padre:nombreUser,
+        padreID:app.userUid,
+        estado: "En espera",
+        
+        
+        
+      
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+        mainView.router.navigate('/citasPadre/',{
+                       clearPreviousHistory: true })
+
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+
+    },
+    on: {
+      pageInit: function () {
+        
+
+
+      },
+    },
+  };
+</script>

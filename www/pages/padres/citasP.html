@@ -1,0 +1,116 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/inicioPadre/" >
+            <i class="icon icon-back" style="color:black;"></i>
+          </a>
+
+        </div>
+        <div class="title" >Citas padre</div>
+
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="card card-outline" >
+        <div class="card-header">
+          <h1>Datos de la cita</h1></div>
+        <div class="card-content card-content-padding">
+         <h5>Nombre del Ángel:</h5>
+          <p>{{angel}}</p>
+          <h5>Nombre del Padre:</h5>
+          <p> {{padre}} {{paterno}} {{materno}}</p>
+          <h5>Nombre del Refugio::</h5>
+          <p>Caninos 911 </p>
+          <h5>Fecha:</h5>
+          <p>{{fecha}}</p>
+          <h5>Estado de la solicitud de cita:</h5>
+          <p>{{estado}}</p>
+
+          <h2>{{mensaje}}</h2>
+         
+          <a href="#" class="col button color-red"  >Cancelar cita</a>
+          
+         
+          
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    
+    </div>
+  
+    </div>
+  </div>
+
+
+
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+
+      }
+    },
+    methods:{
+      
+    },
+    on: {
+      pageInit: function () {
+        var self = this;
+        
+        padreID= app.userUid;
+        let _Citas= [];
+        db1.collection("citas").where("padreID","==",padreID)
+        .onSnapshot(function (querySnapshot) {
+        
+          querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            
+                           
+                            self.$setState({
+                              id:doc.data().id,
+                              angel:doc.data().angel,
+                         
+                          padre:doc.data().padre,
+                         
+                          refugio:doc.data().refugio,
+                          fecha:doc.data().fecha,
+                          estado:doc.data().estado,
+                          mensaje:doc.data().mensaje
+                            })
+                          });
+        });
+         
+
+
+
+
+           db1.collection("users").doc(app.userUid).get().then(function(doc) {
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        self.$setState({
+                          
+                          nombre:doc.data().nombre,
+                          paterno:doc.data().paterno,
+                          materno:doc.data().materno
+                        })
+
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+
+      },
+    },
+  };
+</script>

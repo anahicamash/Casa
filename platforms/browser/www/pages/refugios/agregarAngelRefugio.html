@@ -1,0 +1,228 @@
+<template>
+  <div class="page">
+    <div class="navbar" >
+      <div class="navbar-bg" style="background-color:rgb(237,30,121,100);"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/leccionesU/" class="link back">
+            <i class="icon icon-back" style="color:white;"></i>
+          </a>
+        </div>
+        <div class="title" style="color:white;" >Agregar Ángel</div>
+
+
+      </div>
+
+    </div>
+    <div class="page-content">
+      <div class="block block-title-medium">Ángel</div>
+      <form class="list no-hairlines-md" id="agregarAngel">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Nombre</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Nombre del nuevo Ángel" name="nombre">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>              
+        <li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Tipo de Ángel</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select placeholder="Tipo de Ángel" name="tipo">
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Sexo</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select name="sexo">
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Raza</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select name="raza">
+                <option value="Pequeña">Pequeña</option>
+                <option value="Mediana">Mediana</option>
+                <option value="Grande">Grande</option>
+                <option value="Gigante">Gigante</option>
+                <option value="Indefinido">Indefinido</option>
+              </select>
+            </div>
+          </div>
+        </li>
+
+
+
+
+        <li class="item-content item-input">
+          <div class="item-media">
+           <i class="icon f7-icons">circle</i>
+          </div>                
+          <div class="item-inner">
+           <div class="item-title item-label">Peso</div>
+           <div class="item-input-wrap">
+            <input type="text" placeholder="Tipo de Ángel" name="peso">
+            <span class="input-clear-button"></span>
+          </div>
+        </div>
+      </li>
+      <li class="item-content item-input">
+        <div class="item-media">
+         <i class="icon f7-icons">circle</i>
+       </div>                
+       <div class="item-inner">
+        <div class="item-title item-label">Altura en cm</div>
+        <div class="item-input-wrap">
+          <input type="text" placeholder="Altura" name="altura">
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+       <i class="icon f7-icons">circle</i>
+     </div>
+     <div class="item-inner">
+      <div class="item-title item-label">Fecha de rescate</div>
+      <div class="item-input-wrap">
+        <input type="date" placeholder="Seleccionar fecha" value="2020-04-30"  name="fecha_rescate"/>
+
+      </div>
+    </div>
+  </li>
+
+  <li class="item-content item-input">
+    <div class="item-media">
+     <i class="icon f7-icons">circle</i>
+   </div>                
+   <div class="item-inner">
+    <div class="item-title item-label">Edad</div>
+    <div class="item-input-wrap">
+      <input type="text" placeholder="Edad en meses" name="edad">
+      <span class="input-clear-button"></span>
+    </div>
+  </div>
+</li>
+<li class="item-content item-input">
+  <div class="item-media">
+   <i class="icon f7-icons">circle</i>
+ </div>                
+ <div class="item-inner">
+  <div class="item-title item-label">Descripción de condición de rescate</div>
+  <div class="item-input-wrap">
+    <input type="text" placeholder="Breve descripción de la condición" name="des_condicion">
+    <span class="input-clear-button"></span>
+  </div>
+</div>
+</li>
+<li class="item-content item-input">
+  <div class="item-media">
+   <i class="icon f7-icons">circle</i>
+ </div>                
+ <div class="item-inner">
+  <div class="item-title item-label">Descripción de condición actual </div>
+  <div class="item-input-wrap">
+    <input type="text" placeholder="Breve descripción actual" name="des_condicion_actual">
+    <span class="input-clear-button"></span>
+  </div>
+</div>
+</li>
+<li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Adoptado</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select name="adoptado">
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+        </li>
+
+
+</ul>
+</form>    
+<a href="#" class="button" @click="guardar">Agregar Ángel</a>
+</div>
+ </div>
+</template>
+
+<script>
+  return {
+    methods:{
+      guardar:function(){
+        var datos = app.form.convertToData('#agregarAngel');
+        var formData = {
+         nombre:'',
+
+         tipo: '',
+         sexo: '',
+         raza: '',
+         peso: '',
+         altura: '',
+         fecha_rescate: '',
+         edad: '',
+         des_condicion: '',
+         des_condicion_actual: '',
+         adoptado: ''
+       }
+       db1.collection("users").doc("ljze2XmhVnhUbWpA9nbNdgOWHdE2").collection("angeles").add({
+        nombre: datos.nombre,
+        tipo:datos.tipo,
+        sexo:datos.sexo,
+        raza:datos.raza,
+        peso:datos.peso,
+        altura_cm:datos.altura,
+        fecha_rescate:datos.fecha_rescate,
+        edad:datos.edad,
+        des_condicion:datos.des_condicion,
+        des_condicion_actual:datos.des_condicion_actual,
+        refugioID:"ljze2XmhVnhUbWpA9nbNdgOWHdE2",
+        refugioNombre:"Caninos 911",
+        adoptado:datos.adoptado
+
+
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+   },
+ };
+</script>

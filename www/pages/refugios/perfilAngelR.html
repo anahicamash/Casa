@@ -1,0 +1,169 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg" style="background-color:rgb(0,168,168,66);"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+         <a href="#" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+         </a>
+
+        </div>
+        <div class="title" style="color:white;">Perfil Ángel</div>
+
+      </div>
+    </div>
+    <div class="page-content">
+
+      <div class="card data-table data-table-collapsible data-table-init">
+        <div class="card-header">
+          <div class="data-table-title">Información</div>
+          <div class="card-content" align="center" > 
+            <img src="{{foto}}" width="20%" height="20%"  />
+          </div>
+          <div class="data-table-actions">
+
+            
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="block row">
+            <div class="col-33"><a href="#" class="button button-small pb-page">Ver foto</a></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th class="label-cell">Nombre</th>
+                <th class="numeric-cell">Edad</th>
+                
+                <th class="numeric-cell">Sexo</th>
+                <th class="numeric-cell">Peso Kg</th>
+                <th class="numeric-cell">Altura cm</th>
+                <th class="numeric-cell">Raza</th>
+                <th class="numeric-cell">Descripción condición rescate</th>
+                <th class="numeric-cell">Fecha de rescate</th>
+                <th class="numeric-cell">Condición actual</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label-cell">{{nombre}}</td>
+                <td class="numeric-cell">{{edad}}</td>
+                <td class="numeric-cell">{{sexo}}</td>
+                <td class="numeric-cell">{{peso}}</td>
+                <td class="numeric-cell">{{altura_cm}}</td>
+                <td class="numeric-cell">{{raza}}</td>
+                <td class="numeric-cell">{{des_condicion}}</td>
+                <td class="numeric-cell">{{fecha_rescate}}</td>
+                <td class="numeric-cell">{{des_condicion_actual}}</td>
+               
+              </tr>
+            
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+
+      }
+    },
+    methods:{
+
+    },
+    on: {
+      pageInit: function () {
+       var self = this;
+        var f7 = this;
+        var app = f7.$app;
+       var id=f7.$route.params.id;
+       console.log(id)
+
+      db1.collection("users").doc("ljze2XmhVnhUbWpA9nbNdgOWHdE2").collection("angeles").doc(id).get().then(function(doc) {
+
+
+            var myPhotoBrowserPage = app.photoBrowser.create({
+              photos : [
+              doc.data().foto,
+              ],
+              type: 'page',
+              pageBackLinkText: 'Back'
+            });
+            $$('.pb-page').on('click', function () {
+              myPhotoBrowserPage.open();
+            });
+        if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        self.$setState({
+                         idAngel:id,
+                          nombre:doc.data().nombre,
+                          edad:doc.data().edad,
+                          sexo:doc.data().sexo,
+                          peso:doc.data().peso,
+                          altura_cm:doc.data().altura_cm,
+                          raza:doc.data().raza,
+                          des_condicion:doc.data().des_condicion,
+                          fecha_rescate:doc.data().fecha_rescate,
+                          des_condicion_actual:doc.data().des_condicion_actual,
+                          foto:doc.data().foto
+                          
+
+                        })
+
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+
+
+
+
+       
+       db1.collection("users")
+       .doc(app.userUid).get().then(function(doc) {
+        
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        self.$setState({
+                          
+                          nombreUser:doc.data().nombre,
+                          paterno:doc.data().paterno,
+                          materno:doc.data().materno,
+                          email:doc.data().email
+                        })
+
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+
+
+      },
+
+    },
+
+
+
+  };
+
+</script>

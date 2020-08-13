@@ -1,0 +1,129 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/inicioPadre/" >
+            <i class="icon icon-back" style="color:black;"></i>
+          </a>
+
+        </div>
+        <div class="title" >Citas padre</div>
+
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="card card-outline" >
+        <div class="card-header">
+          <h1>Datos de la cita</h1></div>
+        <div class="card-content card-content-padding">
+         <h5>Nombre del Ángel:</h5>
+          <p>{{$route.params.angel}}</p>
+          <h5>Nombre del Padre:</h5>
+          <p> {{$route.params.padre}}</p>
+          <h5>Nombre del Refugio:</h5>
+          <p>Caninos 911 </p>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+
+
+
+      <div class="block block-title-medium">Cita</div>
+      <form class="list no-hairlines-md" id="editarCitas">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+            </div>                
+            <div class="item-inner">
+               <div class="item-title item-label">Estado de solicitud</div>
+               <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="estado">
+                    
+                    <option value="En proceso">En proceso</option>
+                    <option value="Aceptada">Aceptada</option>
+                    <option value="Denegada">Denegada</option>
+                  </select>
+                </div>
+            </div>
+          </li>  
+
+          
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i>
+            </div>
+           <div class="item-inner">
+              <div class="item-title item-label">Fecha</div>
+              <div class="item-input-wrap">
+                <input type="date" placeholder="Seleccionar fecha"  name="fecha"/>
+
+              </div>
+           </div>
+          </li>
+      </ul>
+    </form>    
+    <a href="#" class="button" @click="editar">Guardar</a> 
+    
+    </div>
+  
+    </div>
+  </div>
+
+
+
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+
+      }
+    },
+    methods:{
+
+      editar: function(){
+          var f7 = this;
+          var app = f7.$app;
+          var datos =app.form.convertToData('#editarCitas');
+          var id=f7.$route.params.id;
+          
+          console.log(id)
+          console.log(datos)
+       
+          app.dialog.preloader("Actualizando")
+          db1.collection('citas').doc(id).update({
+
+            estado:datos.estado,
+            fecha:datos.fecha
+            
+          }).then (()=>{
+            app.dialog.close();
+            app.dialog.alert("Actualizando", "Guardado")
+          }).catch(error => {
+            app.dialog.close()
+            app.dialog.alert('Error al actualizar ${error}', "Error")
+          });
+        }
+    },
+    on: {
+      pageInit: function () {
+        var self = this;
+        
+        
+      
+         
+
+
+
+
+           
+
+      },
+    },
+  };
+</script>

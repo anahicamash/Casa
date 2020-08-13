@@ -1,0 +1,194 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+       <div class="navbar-bg" style="background-color:rgb(237,30,121,100);"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/leccionesU/" class="link back">
+            <i class="icon icon-back" style="color:white;"></i>
+          </a>
+        </div>
+        <div class="title" >Editar</div>    
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block block-title-medium">Ángel</div>
+      <form class="list no-hairlines-md" id="editarAngeles">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i>
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Nombre</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Nombre del nuevo Ángel" name="nombre" value="{{$route.params.nombre}}">
+             
+            </div>
+          </div>
+        </li>              
+        <li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Tipo de Ángel</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select placeholder="Tipo de Ángel" name="tipo" >
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-media">
+           <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Sexo</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select name="sexo" >
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-media">
+            <i class="icon f7-icons">circle</i>
+          </div>
+          <div class="item-inner">
+            <div class="item-title item-label">Raza</div>
+            <div class="item-input-wrap input-dropdown-wrap">
+              <select name="raza" >
+                <option value="Pequeña">Pequeña</option>
+                <option value="Mediana">Mediana</option>
+                <option value="Grande">Grande</option>
+                <option value="Gigante">Gigante</option>
+                <option value="Indefinido">Indefinido</option>
+              </select>
+            </div>
+          </div>
+        </li>
+
+
+
+
+        <li class="item-content item-input">
+          <div class="item-media">
+           <i class="icon f7-icons">circle</i>
+          </div>                
+          <div class="item-inner">
+           <div class="item-title item-label">Peso</div>
+           <div class="item-input-wrap">
+            <input type="text" placeholder="Tipo de Ángel" name="peso" value="{{$route.params.peso}}">
+            <span class="input-clear-button"></span>
+          </div>
+        </div>
+      </li>
+      <li class="item-content item-input">
+        <div class="item-media">
+         <i class="icon f7-icons">circle</i>
+       </div>                
+       <div class="item-inner">
+        <div class="item-title item-label">Altura en cm</div>
+        <div class="item-input-wrap">
+          <input type="text" placeholder="Altura" name="altura" value="{{$route.params.altura_cm}}">
+          <span class="input-clear-button"></span>
+        </div>
+      </div>
+    </li>
+    <li class="item-content item-input">
+      <div class="item-media">
+       <i class="icon f7-icons">circle</i>
+     </div>
+     <div class="item-inner">
+      <div class="item-title item-label">Fecha de rescate</div>
+      <div class="item-input-wrap">
+        <input type="date" placeholder="Seleccionar fecha"   name="fecha_rescate" value="{{$route.params.fecha_rescate}}"/>
+
+      </div>
+    </div>
+  </li>
+
+  <li class="item-content item-input">
+    <div class="item-media">
+     <i class="icon f7-icons">circle</i>
+   </div>                
+   <div class="item-inner">
+    <div class="item-title item-label">Edad</div>
+    <div class="item-input-wrap">
+      <input type="text" placeholder="Edad en meses" name="edad" value="{{$route.params.edad}}">
+      <span class="input-clear-button"></span>
+    </div>
+  </div>
+</li>
+<li class="item-content item-input">
+  <div class="item-media">
+   <i class="icon f7-icons">circle</i>
+ </div>                
+ <div class="item-inner">
+  <div class="item-title item-label">Descripción de condición de rescate</div>
+  <div class="item-input-wrap">
+    <input type="text" placeholder="Breve descripción de la condición" name="des_condicion" value="{{$route.params.des_condicion}}">
+    <span class="input-clear-button"></span>
+  </div>
+</div>
+</li>
+<li class="item-content item-input">
+  <div class="item-media">
+   <i class="icon f7-icons">circle</i>
+ </div>                
+ <div class="item-inner">
+  <div class="item-title item-label">Descripción de condición actual </div>
+  <div class="item-input-wrap">
+    <input type="text" placeholder="Breve descripción actual" name="des_condicion_actual" value="{{$route.params.des_condicion_actual}}">
+    <span class="input-clear-button"></span>
+  </div>
+</div>
+</li>
+
+
+</ul>
+</form>    
+<a href="#" class="button" @click="editar">Editar Ángel</a>
+</div>
+</div>
+</template>
+
+<script>
+  return {
+    methods:{
+          
+         editar: function(){
+          var f7 = this;
+          var app = f7.$app;
+          var datos =app.form.convertToData('#editarAngeles');
+          var id=f7.$route.params.id;
+          console.log(id)
+          app.dialog.preloader("Actualizando")
+          db1.collection('angeles').doc(id).update({
+
+            nombre:datos.nombre,
+            tipo:datos.tipo,
+            sexo:datos.sexo,
+            raza:datos.raza,
+            peso:datos.peso,
+            altura_cm:datos.altura,
+            fecha_rescate:datos.fecha_rescate,
+            edad:datos.edad,
+            des_condicion:datos.des_condicion,
+            des_condicion_actual:datos.des_condicion_actual
+          }).then (()=>{
+            app.dialog.close();
+            app.dialog.alert("Actualizando", "Guardado")
+          }).catch(error => {
+            app.dialog.close()
+            app.dialog.alert('Error al actualizar ${error}', "Error")
+          });
+        }
+        },
+ };
+</script>

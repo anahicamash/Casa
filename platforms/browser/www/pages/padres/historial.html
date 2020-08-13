@@ -1,0 +1,125 @@
+<template>
+<div class="page">
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(248,122,137,100);"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+        </a>
+      </div>
+      <div class="title" style="color:white;" >Historial</div>
+      <div class="right">
+        <a href="/historialAgregar/" class="link"><i class="icon f7-icons" style="color:white;">plus</i></a>
+      </div>
+
+    </div>
+
+    </div>
+    <div class="page-content">
+
+     <div class="data-table card">
+      <table>
+        <thead>
+          <tr>
+
+            <th class="numeric-cell">ID</th>
+            <th class="numeric-cell">Email</th>
+            <th class="numeric-cell">Fecha</th>
+
+            <th></th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody id="tabla">
+          {{#each historial}}
+
+          <tr id="{{id}}">
+
+            <td class="numeric-cell">{{id}}</td>
+            <td class="numeric-cell">{{email}}</td>
+            <td class="numeric-cell">{{fecha}}</td>
+
+         
+          </tr>
+
+
+          {{/each}}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+</template>
+
+<script>
+  return {
+    data: function () {
+      return {
+       citas:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando cita');
+                                db1.collection("citas").doc(id).delete().then(function() {
+                                  console.log("Cita eliminada");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _Historial = [];
+      var tabla = document.getElementById('tabla');
+      db1
+      .collection("historial")
+      .onSnapshot(function (querySnapshot) {
+        tabla.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            
+                            _Historial.push({
+                              id:doc.id,
+                              email:doc.data().email,
+                              
+                              fecha:doc.data().fecha
+
+                            })
+                            self.$setState({
+                              historial:_Historial
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>

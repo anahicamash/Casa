@@ -1,0 +1,146 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="button popup-open" data-popup=".popup-about">
+            <i class="icon f7-icons color-theme-pink">line_horizontal_3</i>
+          </a>
+
+        </div>
+       
+        <div class="title" name="p" id="tit" >{{nombre}}</div>
+      
+      </div>
+    </div>
+    <div class="page-content">
+
+      <div class="popup popup-about">
+        <div class="block">
+          <!-- Close Popup -->
+          <p><a class="link popup-close color-theme-pink" href="#">Cerrar</a></p>
+
+          <div class="list links-list">
+            <ul>
+              <li><a href="/inicioPadre/" class="link popup-close">Inicio</a></li>
+              <li><a href="/perfilPadre/" class="link popup-close">Perfil</a></li>
+              <li><a href="/angelesLista/" class="link popup-close">Ángeles</a></li>
+              
+              <li><a href="/citasPadre/" class="link popup-close">Citas</a></li>
+             <!-- <li><a href="/historial/" class="link popup-close">Historial</a></li>
+              <li><a href="/historialPass/" class="link popup-close">Historial Pass</a></li>-->
+            </ul>
+          </div>
+          <div class="list">
+            <ul>
+              <li>
+                <a href="/login/" class="item-link list-button link popup-close">Salir</a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+     
+
+
+      <div class="card card-expandable">
+        <div class="card-content" >
+          <div  style="height: 300px; background-color:rgb(25,204,190,80);">
+            <div class="card-header text-color-black display-block">
+              Casa de Ángel
+              <br>
+              <small style="opacity: 0.7">¿Quienes son los verdaderos Ángeles?</small>
+            </div>
+            <a href="#" class="link card-close card-opened-fade-in color-black" style="position: absolute; right: 15px; top: 15px">
+              <i class="icon f7-icons">multiply_circle_fill</i>
+            </a>
+          </div>
+          <div class="card-content-padding">
+            <p>Un Ángel es un mensajero, es aquel que siempre porta un mensaje. Los animalitos son portadores de fidelidad y amor. Nosotros no los elegimos, ellos nos eligen. Conviertete en el hospedador de un Ángel y comparte felicidad</p>
+            
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="list media-list">
+        <ul>
+          
+          <li>
+            <a href="/angelesLista/" class="item-link item-content">
+              <div class="item-media"><img src="./img/1.png" width="44"/></div>
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">Ángeles</div>
+                </div>
+                <div class="item-subtitle">Información</div>
+              </div>
+            </a>
+          </li>
+         
+          <li>
+            <a href="/citasPadre/" class="item-link item-content">
+              <div class="item-media"><img src="./img/3.png" width="44"/></div>
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">Citas</div>
+                </div>
+                <div class="item-subtitle">Agenda</div>
+              </div>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+
+      
+    </div>
+  </div>
+  ...
+
+
+
+
+</div>
+</template>
+
+<script>
+ 
+  return {
+    data: function () {
+      return {
+
+      }
+    },
+    methods:{
+
+
+    },
+    on: {
+      pageInit: function () {
+       var self = this;
+       db1.collection("users").doc(app.userUid).get().then(function(doc) {
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        self.$setState({
+                          
+                          nombre:doc.data().nombre
+                        })
+
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+      },
+      
+    },
+  };
+</script>

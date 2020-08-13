@@ -1,0 +1,141 @@
+<template>
+<div class="page">
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(56,182,255,1);"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
+        </a>
+      </div>
+      <div class="title" style="color:white;" >Refugios</div>
+     
+    </div>
+
+    </div>
+    <div class="page-content">
+
+      <div class="block block-title-medium">Refugio</div>
+      <form class="list no-hairlines-md" id="agregarRefugio">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Nombre</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Nombre del refugio" name="nombreR">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>  
+        <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Dirección</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Dirección" name="direccion">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li> 
+        <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">CP</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Código Postal" name="cp">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>    
+        <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Teléfono</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Teléfono" name="telefono">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>    
+        <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Reponsable</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Nombre del responsable" name="responsable">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>    
+        <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">circle</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Año de registro</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Año de registro" name="anio_resgistro">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>       
+
+      </ul>
+    </form>    
+    <a href="#" class="button" @click="guardar">Agregar Refugio</a> 
+
+    </div>
+  </div>
+</template>
+
+<script>
+  return {
+    methods:{
+      guardar:function(){
+        var datos = app.form.convertToData('#agregarRefugio');
+        var formData = {
+         
+
+         nombreR: '',
+         direccion: '',
+         cp: '',
+         telefono: '',
+         responsable: '',
+         anio_resgistro: ''
+       }
+       db1.collection("users").add({
+        nombreR: datos.nombreR,
+        direccion:datos.direccion,
+        cp:datos.cp,
+        telefono:datos.telefono,
+        responsable:datos.responsable,
+        anio_resgistro:datos.anio_resgistro,
+        tipo:"refugio"
+      
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+   },
+ };
+</script>
